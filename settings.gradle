@@ -1,2 +1,2 @@
-rootProject.name = "MelaporApp_pro"
+rootProject.name = "MelaporApp_v1"
 include ':app'
