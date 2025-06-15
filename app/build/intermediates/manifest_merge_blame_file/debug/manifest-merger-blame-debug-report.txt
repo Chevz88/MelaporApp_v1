@@ -1,0 +1,142 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="id.ac.poliban.mi.vc.andrea.codingchallenge_033"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="15"
+8-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="31" />
+9-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml
+10
+11    <!-- Permissions -->
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:6:5-67
+12-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:6:22-64
+13    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+13-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:7:5-79
+13-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:7:22-76
+14    <uses-permission android:name="android.permission.CAMERA" />
+14-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:8:5-65
+14-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:8:22-62
+15    <!-- Khusus Android 13+: untuk akses media -->
+16    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+16-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:10:5-76
+16-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:10:22-73
+17    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+17-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:11:5-75
+17-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:11:22-72
+18
+19    <application
+19-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:13:5-74:19
+20        android:allowBackup="true"
+20-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:14:9-35
+21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+21-->[androidx.core:core:1.5.0] /data/data/com.termux/files/home/.gradle/caches/8.14.2/transforms/072920c5a3a7cecc3adee582fa309dbb/transformed/core-1.5.0/AndroidManifest.xml:24:18-86
+22        android:debuggable="true"
+23        android:exported="true"
+23-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:18:9-32
+24        android:icon="@mipmap/ic_launcher"
+24-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:15:9-43
+25        android:label="@string/app_name"
+25-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:16:9-41
+26        android:theme="@style/Theme.AppCompat.Light.DarkActionBar" >
+26-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:17:9-67
+27
+28        <!-- Splash Screen -->
+29        <activity
+29-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:21:9-29:20
+30            android:name="id.ac.poliban.mi.vc.andrea.codingchallenge_033.SplashActivity"
+30-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:22:13-43
+31            android:exported="true"
+31-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:23:13-36
+32            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+32-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:24:13-69
+33            <intent-filter>
+33-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:25:13-28:29
+34                <action android:name="android.intent.action.MAIN" />
+34-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:26:17-69
+34-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:26:25-66
+35
+36                <category android:name="android.intent.category.LAUNCHER" />
+36-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:27:17-77
+36-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:27:27-74
+37            </intent-filter>
+38        </activity>
+39
+40        <!-- Login Activity -->
+41        <activity
+41-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:32:9-35:72
+42            android:name="id.ac.poliban.mi.vc.andrea.codingchallenge_033.LoginActivity"
+42-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:33:13-42
+43            android:exported="false"
+43-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:34:13-37
+44            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+44-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:35:13-69
+45
+46        <!-- Main Activity -->
+47        <activity
+47-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:38:9-41:74
+48            android:name="id.ac.poliban.mi.vc.andrea.codingchallenge_033.MainActivity"
+48-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:39:13-41
+49            android:exported="false"
+49-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:40:13-37
+50            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+50-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:41:13-71
+51
+52        <!-- History Activity -->
+53        <activity
+53-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:44:9-51:20
+54            android:name="id.ac.poliban.mi.vc.andrea.codingchallenge_033.HistoryActivity"
+54-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:45:13-44
+55            android:exported="false"
+55-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:46:13-37
+56            android:parentActivityName="id.ac.poliban.mi.vc.andrea.codingchallenge_033.MainActivity" >
+56-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:47:13-55
+57            <meta-data
+57-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:48:13-50:49
+58                android:name="android.support.PARENT_ACTIVITY"
+58-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:49:17-63
+59                android:value=".MainActivity" />
+59-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:50:17-46
+60        </activity>
+61
+62        <!-- Detail Activity -->
+63        <activity
+63-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:54:9-61:20
+64            android:name="id.ac.poliban.mi.vc.andrea.codingchallenge_033.DetailActivity"
+64-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:55:13-43
+65            android:exported="false"
+65-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:56:13-37
+66            android:parentActivityName="id.ac.poliban.mi.vc.andrea.codingchallenge_033.HistoryActivity" >
+66-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:57:13-58
+67            <meta-data
+67-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:48:13-50:49
+68                android:name="android.support.PARENT_ACTIVITY"
+68-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:49:17-63
+69                android:value=".HistoryActivity" />
+69-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:50:17-46
+70        </activity>
+71
+72        <!-- FileProvider untuk upload bukti -->
+73        <provider
+73-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:64:9-72:20
+74            android:name="androidx.core.content.FileProvider"
+74-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:65:13-62
+75            android:authorities="com.melapor.app.fileprovider"
+75-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:66:13-63
+76            android:exported="false"
+76-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:67:13-37
+77            android:grantUriPermissions="true" >
+77-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:68:13-47
+78            <meta-data
+78-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:69:13-71:54
+79                android:name="android.support.FILE_PROVIDER_PATHS"
+79-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:70:17-67
+80                android:resource="@xml/file_paths" />
+80-->/storage/emulated/0/Download/MelaporApp_pro/app/src/main/AndroidManifest.xml:71:17-51
+81        </provider>
+82    </application>
+83
+84</manifest>

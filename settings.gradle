@@ -1,0 +1,2 @@
+rootProject.name = "MelaporApp_pro"
+include ':app'
