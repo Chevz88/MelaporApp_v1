@@ -18,7 +18,8 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./gradlew
+
       - name: Build Debug APK
-        uses: vgaidarji/android-github-actions-build@v1.0.1
-        with:
-          args: "./gradlew assembleDebug"
+        run: ./gradlew assembleDebug
