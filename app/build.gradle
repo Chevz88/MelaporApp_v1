@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.rtmm.melapor'
+    namespace 'com.chevz.melapor'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.rtmm.melapor"
+        applicationId "com.chevz.melapor"
         minSdk 21
         targetSdk 33
         versionCode 1
