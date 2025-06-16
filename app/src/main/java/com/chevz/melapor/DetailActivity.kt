@@ -1,4 +1,4 @@
-package com.chevz.melapor.app
+package com.chevz.melapor
 
 import android.os.Bundle
 import android.widget.TextView
