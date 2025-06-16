@@ -1,4 +1,4 @@
-package com.melapor.app
+package com.chevz.melapor.app
 
 import android.view.LayoutInflater
 import android.view.View
