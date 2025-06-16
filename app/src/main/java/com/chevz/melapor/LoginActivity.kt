@@ -1,4 +1,4 @@
-package com.chevz.melapor.R
+package com.chevz.melapor
 
 import android.content.Intent
 import android.os.Bundle
