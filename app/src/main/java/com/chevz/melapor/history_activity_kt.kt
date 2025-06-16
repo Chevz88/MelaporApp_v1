@@ -21,7 +21,7 @@ class HistoryActivity : AppCompatActivity() {
             "🚰 Laporan Pipa Bocor - Jl. Veteran",
             "🗑️ Laporan Sampah Menumpuk - Jl. Ahmad Yani"
         )
-        
+         
         recyclerView.adapter = HistoryAdapter(data) { selectedItem ->
             startActivity(Intent(this, DetailActivity::class.java).apply {
                 putExtra("judul", selectedItem)
