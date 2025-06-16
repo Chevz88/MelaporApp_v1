@@ -1,4 +1,4 @@
-package com.melapor.app;
+package com.chevz.melapor.app;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
