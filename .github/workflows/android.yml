@@ -1,53 +1,230 @@
-name: Android Build
+name: Android CI/CD
 
+# Trigger workflow
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch: # Manual trigger
+
+# Environment variables
+env:
+  JAVA_VERSION: '17'
+  ANDROID_API_LEVEL: 34
+  BUILD_TOOLS_VERSION: '34.0.0'
 
 jobs:
-  build:
+  # Job untuk testing
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up JDK 17
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: ${{ env.JAVA_VERSION }}
         distribution: 'temurin'
         
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v4
+    - name: Cache Gradle packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
       
-    - name: Make gradlew executable
-      run: chmod +x ./gradlew
+    - name: Run unit tests
+      run: ./gradlew test
       
-    - name: Verify project structure
-      run: |
-        echo "Checking project structure..."
-        ls -la app/src/main/java/com/chevz/melapor/
-        echo "Checking manifest package..."
-        grep "package=" app/src/main/AndroidManifest.xml
+    - name: Generate test report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Unit Test Results
+        path: '**/build/test-results/test/TEST-*.xml'
+        reporter: java-junit
+
+  # Job untuk build APK
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
         
-    - name: Clean project
-      run: ./gradlew clean
+    - name: Cache Gradle packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
       
-    - name: Generate R class
-      run: ./gradlew generateDebugResources
-      
-    - name: Check R class generation
-      run: |
-        echo "Checking if R.java is generated..."
-        find . -name "R.java" -type f || echo "R.java not found"
-      
-    - name: Build APK
+    - name: Build debug APK
       run: ./gradlew assembleDebug
       
-    - name: Upload APK
-      uses: actions/upload-artifact@v3
+    - name: Build release APK
+      run: ./gradlew assembleRelease
+      env:
+        SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+        SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+        
+    - name: Upload debug APK
+      uses: actions/upload-artifact@v4
       with:
-        name: app-debug
-        path: app/build/outputs/apk/debug/app-debug.apk
+        name: debug-apk
+        path: app/build/outputs/apk/debug/*.apk
+        retention-days: 30
+        
+    - name: Upload release APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-apk
+        path: app/build/outputs/apk/release/*.apk
+        retention-days: 90
+
+  # Job untuk build AAB (Android App Bundle)
+  build-aab:
+    name: Build AAB
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ env.JAVA_VERSION }}
+        distribution: 'temurin'
+        
+    - name: Cache Gradle packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Build release AAB
+      run: ./gradlew bundleRelease
+      env:
+        SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+        SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+        
+    - name: Upload AAB
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-aab
+        path: app/build/outputs/bundle/release/*.aab
+        retention-days: 90
+
+  # Job untuk security scan
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Run Dependency Check
+      uses: dependency-check/Dependency-Check_Action@main
+      with:
+        project: 'android-app'
+        path: '.'
+        format: 'HTML'
+        
+    - name: Upload security report
+      uses: actions/upload-artifact@v4
+      with:
+        name: security-report
+        path: reports/
+        retention-days: 30
+
+  # Job untuk deployment ke Firebase App Distribution
+  deploy-firebase:
+    name: Deploy to Firebase
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Download APK artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: release-apk
+        path: ./apk
+        
+    - name: Deploy to Firebase App Distribution
+      uses: wzieba/Firebase-Distribution-Github-Action@v1
+      with:
+        appId: ${{ secrets.FIREBASE_APP_ID }}
+        serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+        groups: testers
+        file: ./apk/app-release.apk
+        releaseNotes: |
+          New build from commit: ${{ github.sha }}
+          Changes: ${{ github.event.head_commit.message }}
+
+  # Job untuk notification
+  notify:
+    name: Send Notifications
+    runs-on: ubuntu-latest
+    needs: [build, deploy-firebase]
+    if: always()
+    
+    steps:
+    - name: Notify Slack on success
+      if: needs.build.result == 'success'
+      uses: 8398a7/action-slack@v3
+      with:
+        status: success
+        text: '✅ Build berhasil! APK telah di-upload ke artifacts.'
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        
+    - name: Notify Slack on failure
+      if: needs.build.result == 'failure'
+      uses: 8398a7/action-slack@v3
+      with:
+        status: failure
+        text: '❌ Build gagal! Silakan cek logs untuk detail error.'
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
